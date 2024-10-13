@@ -8,11 +8,11 @@ def main(argv):
     try:
         while line:
             for word in pattern.findall(line):
-                print (word + "\t" + "1")
+                print ("LongValueSum:" + word.lower() + "\t" + "1")
+                # x = 1 / random.randint(0,99)
             line = sys.stdin.readline()
     except EOFError as error:
         return None
 
 if __name__ == "__main__":
     main(sys.argv)
-
