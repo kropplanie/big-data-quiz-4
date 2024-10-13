@@ -41,4 +41,4 @@ if current_word == word:
 
 total_reqs = word_counts['__TOTAL__']
 for word, count in word_counts.items():
-    print(f'{word}\t{(count/total_reqs)*100:.2f}%')
+    print ('%s\t%s' % (word, count))
