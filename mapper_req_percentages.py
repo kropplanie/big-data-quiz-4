@@ -8,7 +8,7 @@ def main(argv):
     try:
         while line:
             for word in pattern.findall(line):
-                print (word.lower() + "\t" + "1")
+                print (word + "\t" + "1")
             line = sys.stdin.readline()
     except EOFError as error:
         return None
