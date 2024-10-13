@@ -7,7 +7,7 @@ def main(argv):
     pattern = re.compile(r'\"([A-Z]+) ')
     try:
         while line:
-            for word in pattern.search(line):
+            for word in pattern.findall(line):
                 print (word.lower() + "\t" + "1")
             line = sys.stdin.readline()
     except EOFError as error:
