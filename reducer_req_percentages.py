@@ -30,6 +30,7 @@ for line in sys.stdin:
     else:
         if current_word:
             # write result to STDOUT
+            # this is where I need to add a percentage calculation and then change the print statement below
             print ('%s\t%s' % (current_word, current_count))
         current_count = count
         current_word = word
