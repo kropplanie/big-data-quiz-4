@@ -4,7 +4,7 @@ import random
 
 def main(argv):
     line = sys.stdin.readline()
-    pattern = re.compile(r'\"(\w+)\s')
+    pattern = re.compile(r'\"([A-Z]+) ')
     try:
         while line:
             for word in pattern.findall(line):
