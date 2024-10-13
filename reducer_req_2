@@ -12,12 +12,11 @@ for line in sys.stdin:
     line = line.strip()
 
     # Parse the input from the mapper
-    word, count = line.split('\t', 1)
-
-    # Convert count to an integer
     try:
+        word, count = line.split('\t', 1)
         count = int(count)
     except ValueError:
+        # Skip lines that cannot be parsed
         continue
 
     # Check for the special total count key
@@ -30,11 +29,12 @@ for line in sys.stdin:
         else:
             word_counts[word] = count
 
-# Second pass: Calculate and print the percentage for each word if total_count is valid
+# Check if the total count is valid before proceeding
 if total_count > 0:
+    # Calculate and print the percentage for each word
     for word, count in word_counts.items():
         percentage = (count / total_count) * 100
         print(f'{word}\t{percentage:.2f}%')
 else:
     # Print a single error message if the total count is zero or not found
-    print("Error: Total count is zero or not found.")
+    sys.stderr.write("Error: Total count is zero or not found.\n")
