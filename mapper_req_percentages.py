@@ -7,9 +7,8 @@ def main(argv):
     pattern = re.compile(r'\"([A-Z]+) ')
     try:
         while line:
-            for word in pattern.findall(line):
-                print ("LongValueSum:" + word.lower() + "\t" + "1")
-                # x = 1 / random.randint(0,99)
+            for word in pattern.search(line):
+                print (word.lower() + "\t" + "1")
             line = sys.stdin.readline()
     except EOFError as error:
         return None
