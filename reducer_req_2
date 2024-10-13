@@ -39,6 +39,10 @@ for line in sys.stdin:
 if current_word == word:
     word_counts[current_word] = current_count
 
+
+for word, count in word_counts.items():
+    if word == '__TOTAL__':
+        print('TOTAL: ', count)
+
 for word, count in word_counts.items():
     print ('%s\t%s' % (word, count))
-    print(type(word), type(count))
