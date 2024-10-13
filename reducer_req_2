@@ -8,7 +8,6 @@ current_word = None
 current_count = 0
 word = None
 word_counts = {}
-total_count = 1
 
 # input comes from STDIN
 for line in sys.stdin:
