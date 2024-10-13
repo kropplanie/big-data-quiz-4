@@ -1,0 +1,40 @@
+#!/usr/bin/env python
+"""reducer.py"""
+
+import sys
+
+total_count = 0
+word_counts = {}
+
+# First pass: Read all lines and collect counts
+for line in sys.stdin:
+    # Remove leading and trailing whitespace
+    line = line.strip()
+
+    # Parse the input from the mapper
+    word, count = line.split('\t', 1)
+
+    # Convert count to an integer
+    try:
+        count = int(count)
+    except ValueError:
+        continue
+
+    # Check for the special total count key
+    if word == "__TOTAL__":
+        total_count += count
+    else:
+        # Accumulate counts for each word
+        if word in word_counts:
+            word_counts[word] += count
+        else:
+            word_counts[word] = count
+
+# Second pass: Calculate and print the percentage for each word if total_count is valid
+if total_count > 0:
+    for word, count in word_counts.items():
+        percentage = (count / total_count) * 100
+        print(f'{word}\t{percentage:.2f}%')
+else:
+    # Print a single error message if the total count is zero or not found
+    print("Error: Total count is zero or not found.")
