@@ -2,7 +2,7 @@
 import sys
 import re
 
-def main():
+def main(argv):
     # Regular expression to match the HTTP request type
     pattern = re.compile(r'\"([A-Z]+) ')
     
@@ -22,4 +22,4 @@ def main():
             sys.stderr.write(f"reporter:counter:RequestTypes,{request},1\n")
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv)
