@@ -8,6 +8,7 @@ current_word = None
 current_count = 0
 word = None
 word_counts = {}
+total_count = 1
 
 # input comes from STDIN
 for line in sys.stdin:
@@ -42,7 +43,7 @@ if current_word == word:
 
 for word, count in word_counts.items():
     if word == '__TOTAL__':
-        print('TOTAL: ', count)
+        total_count = count
 
 for word, count in word_counts.items():
-    print ('%s\t%s' % (word, count))
+    print ('%s\t%s' % (word, (count/total_count)*100))
