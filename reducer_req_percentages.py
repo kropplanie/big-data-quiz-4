@@ -25,15 +25,16 @@ for line in sys.stdin:
         continue
     # this IF-switch only works because Hadoop sorts map output
     # by key (here: word) before it is passed to the reducer
-    if current_word == word:
-        current_count += count
-    else:
-        if current_word:
-            # write result to STDOUT
-            # this is where I need to add a percentage calculation and then change the print statement below
-            print ('%s\t%s' % (current_word, current_count))
-        current_count = count
-        current_word = word
+    if word.isupper() AND word.isalpha():
+        if current_word == word:
+            current_count += count
+        else:
+            if current_word:
+                # write result to STDOUT
+                # this is where I need to add a percentage calculation and then change the print statement below
+                print ('%s\t%s' % (current_word, current_count))
+            current_count = count
+            current_word = word
 
 # do not forget to output the last word if needed!
 if current_word == word:
