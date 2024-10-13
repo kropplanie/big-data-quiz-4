@@ -28,7 +28,6 @@ for line in sys.stdin:
 
     if word == '__TOTAL__':
         total_count += count
-        continue
     
     # this IF-switch only works because Hadoop sorts map output
     # by key (here: word) before it is passed to the reducer
