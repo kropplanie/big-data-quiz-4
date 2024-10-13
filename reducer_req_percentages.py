@@ -7,6 +7,7 @@ import sys
 current_word = None
 current_count = 0
 word = None
+word_counts = {}
 total_count = 0
 
 # input comes from STDIN
@@ -36,12 +37,19 @@ for line in sys.stdin:
     else:
         if current_word:
             # write result to STDOUT
-            print ('%s\t%s' % (current_word, current_count))
+            word_counts[current_word] = current_count
         current_count = count
         current_word = word
 
 # do not forget to output the last word if needed!
 if current_word == word:
-    print ('%s\t%s' % (current_word, current_count))
+    word_counts[current_word] = current_count
 
 print(f'total_count: {total_count}')
+# Calculate and print the percentage for each word
+if total_count > 0:
+    for word, count in word_counts.items():
+        percentage = (count / total_count) * 100
+        print(f'{word}\t{percentage:.2f}%')
+else:
+    print("Error: Total count is zero or not found.")
