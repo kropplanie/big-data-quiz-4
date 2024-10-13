@@ -8,11 +8,6 @@ current_word = None
 current_count = 0
 word = None
 
-# Dictionary to store the word counts temporarily
-word_counts = {}
-
-# Total count of all words
-total_count = 0
 
 # input comes from STDIN
 for line in sys.stdin:
@@ -29,26 +24,17 @@ for line in sys.stdin:
         # count was not a number, so silently
         # ignore/discard this line
         continue
-
     # this IF-switch only works because Hadoop sorts map output
     # by key (here: word) before it is passed to the reducer
     if current_word == word:
         current_count += count
     else:
         if current_word:
-            # Store the count for the current word
-            word_counts[current_word] = current_count
-            total_count += current_count
-
+            # write result to STDOUT
+            print ('%s\t%s' % (current_word, current_count))
         current_count = count
         current_word = word
 
-# Don't forget to output the last word if needed!
+# do not forget to output the last word if needed!
 if current_word == word:
-    word_counts[current_word] = current_count
-    total_count += current_count
-
-# Calculate and print the percentage for each word
-for word, count in word_counts.items():
-    percentage = (count / total_count) * 100
-    print(f'{word}\t{percentage:.2f}%')
+    print ('%s\t%s' % (current_word, current_count))
