@@ -39,5 +39,6 @@ for line in sys.stdin:
 if current_word == word:
     word_counts[current_word] = current_count
 
+total_reqs = word_counts['__TOTAL__']
 for word, count in word_counts.items():
-        print ('%s\t%s' % (word, count))
+    print(f'{word}\t{(count/total_reqs)*100:.2f}%')
