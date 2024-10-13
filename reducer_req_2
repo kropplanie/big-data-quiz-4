@@ -40,4 +40,4 @@ if current_word == word:
     word_counts[current_word] = current_count
 
 for word, count in word_counts.items():
-        print(f'{word}\t{percentage:.2f}%')
+        print ('%s\t%s' % (word, count))
