@@ -39,8 +39,8 @@ if current_word == word:
     word_counts[current_word] = current_count
 
 
-for word, count in word_counts.items():
-    if word == '__TOTAL__':
+#for word, count in word_counts.items():
+    #if word == '__TOTAL__':
         #print ('%s\t%s' % (word, count))
 
 for word, count in word_counts.items():
