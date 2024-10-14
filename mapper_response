@@ -16,15 +16,15 @@ def main(argv):
         for response in response_codes:
             # map to correct category
             if int(response) < 200:
-                print(f"{'informational_responses}\t1")
+                print(f"{'informational_responses'}\t1")
             elif int(response) < 300:
-                print(f"{'successfull_responses}\t1")
+                print(f"{'successfull_responses'}\t1")
             elif int(response) < 400:
-                print(f"{'redirection_messages}\t1")
+                print(f"{'redirection_messages'}\t1")
             elif int(response) < 500:
-                print(f"{'client_error_responses}\t1")
+                print(f"{'client_error_responses'}\t1")
             else:
-                print(f"{'server_error_responses}\t1")
+                print(f"{'server_error_responses'}\t1")
 
             total_count +=1
             
