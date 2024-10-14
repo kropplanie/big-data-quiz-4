@@ -14,6 +14,7 @@ def main(argv):
         
         # Increment the counter for each request type
         for response in response_codes:
+            response = response.strip()
             # map to correct category
             if int(response) < 200:
                 print(f"{'informational_responses'}\t1")
@@ -31,7 +32,7 @@ def main(argv):
             # Use Hadoop's counter mechanism by writing to stderr
             # The format is: 
             #    <counter group name> <counter name> <increment>
-            #sys.stderr.write(f"reporter:counter:RequestTypes,{request},1\n")
+            sys.stderr.write(f"reporter:counter:RequestTypes,{request},1\n")
             
     # Emit the total count as a special key-value pair
     print(f"__TOTAL__\t{total_count}")
