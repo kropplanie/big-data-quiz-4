@@ -17,4 +17,6 @@ for line in sys.stdin:
     if word != "__TOTAL__":
         # Calculate the percentage based on the total count
         percentage = (count / total_count) * 100
-        print(f"{word}\t{percentage:.2f}%")
+        #print(f"{word}\t{percentage:.2f}%")
+        print(f"{word}\t{count}")
+        
