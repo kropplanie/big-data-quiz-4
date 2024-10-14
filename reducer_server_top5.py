@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import sys
+import heapq
 
 # Assuming the total count is passed as an environment variable or command-line argument
 current_word = None
