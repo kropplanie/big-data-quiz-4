@@ -1,0 +1,19 @@
+import sys
+
+total_count = 0
+
+# Input comes from STDIN
+for line in sys.stdin:
+    line = line.strip()
+    req_type, count = line.split('\t', 1)
+
+    try:
+        count = int(count)
+    except ValueError:
+        continue
+
+    if req_type == "__TOTAL__":
+        total_count += count
+
+# Emit the total count only
+print(f"__TOTAL__\t{total_count}")
