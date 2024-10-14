@@ -6,7 +6,6 @@ total_count = int(sys.argv[1])
 current_word = None
 current_count = 0
 word = None
-word_counts = {}
 
 # input comes from STDIN
 for line in sys.stdin:
@@ -30,7 +29,7 @@ for line in sys.stdin:
     else:
         if current_word:
             # write result to STDOUT
-            word_counts[current_word] = current_count
+            print ('%s\t%s' % (word, (count/total_count)*100))
         current_count = count
         current_word = word
 
@@ -39,9 +38,3 @@ if current_word == word:
     word_counts[current_word] = current_count
 
 
-#for word, count in word_counts.items():
-    #if word == '__TOTAL__':
-        #print ('%s\t%s' % (word, count))
-
-for word, count in word_counts.items():
-    print ('%s\t%s' % (word, (count/total_count)*100))
