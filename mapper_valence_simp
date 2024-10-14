@@ -62,10 +62,11 @@ def main(argv):
     line = clean_text(sys.stdin.readline())
     pattern = re.compile("[a-zA-Z][a-zA-Z0-9]*")
     try:
-        valence_line = valence(line)
-        print ("President" "\t" + valence_line)
-                
-        line = sys.stdin.readline()
+        while line:
+            for word in pattern.findall(line):
+                print ("LongValueSum:" + word.lower() + "\t" + "1")
+                # x = 1 / random.randint(0,99)
+            line = sys.stdin.readline()
     except EOFError as error:
         return None
 
