@@ -60,17 +60,18 @@ def valence(text):
 
 def main(argv):
     total_words = 0
-    line = clean_text(sys.stdin.readline())
     pattern = re.compile("[a-zA-Z][a-zA-Z0-9]*")
     try:
-        while line:
+        while True:
+            line = clean_text(sys.stdin.readline())
             for word in pattern.findall(line):
-                valence_word = valence(word)
-                print ("president" + "\t" + str(valence_word))
-                total_words += 1
-            line = sys.stdin.readline()
-    except EOFError as error:
-        return None
+                total_words +=1
+            if not line:  # Check for EOF
+                break
+            valence_total = valence(line)
+            print("president" + "\t" + str(valence_total))
+    except EOFError:
+        pass
 
      # Emit the total count as a special key-value pair
     print(f"__TOTAL__\t{total_count}")
