@@ -32,19 +32,40 @@ def decode_bytes(input_data):
 def get_word_valences(words, valence_scores):
     return list(map(lambda word: valence_scores.get(word.lower(), 0), words))
 
+def calc_valence(input_data):
+    url = 'https://raw.githubusercontent.com/fnielsen/afinn/master/afinn/data/AFINN-en-165.txt'
+    valence_scores = load_valence_scores(url)
+    
+    decoded_text = decode_bytes(input_data)  # Correctly decode input data
+
+    # Remove non-printable characters from the decoded text
+    decoded_text = re.sub(r'[\x00-\x1F\x7F]', '', decoded_text)
+    
+    cleaned_text = clean_text(decoded_text)  # Clean the processed text
+    
+    words = cleaned_text.split()  # Split cleaned text into words
+    word_valences = get_word_valences(words, valence_scores)
+
+    # Calculate the total valence using the reduce function
+    total_valence, valid_count = functools.reduce(
+        lambda acc, val: (acc[0] + val, acc[1] + (1 if val != 0 else 0)),
+        word_valences,
+        (0, 0)
+    )
+    
+    return total_valence
+
+def valence(text):
+    return calc_valence(text)
 
 def main(argv):
     line = clean_text(sys.stdin.readline())
     pattern = re.compile("[a-zA-Z][a-zA-Z0-9]*")
     try:
-        while line:
-            for word in pattern.findall(line):
-                decoded_text = decode_bytes(word)
-                decoded_text = re.sub(r'[\x00-\x1F\x7F]', '', decoded_text)
-                cleaned_text = clean_text(decoded_text)
-                print ("LongValueSum:" + word.lower() + "\t" + "1")
-                # x = 1 / random.randint(0,99)
-            line = sys.stdin.readline()
+        valence_line = valence(line)
+        print ("President" "\t" + valence_line)
+                
+        line = sys.stdin.readline()
     except EOFError as error:
         return None
 
