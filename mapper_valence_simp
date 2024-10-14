@@ -1,53 +1,36 @@
+#!/usr/bin/env python
+import sys, re
+import random
 import requests
 import string
-import functools
-import re
-from mrjob.job import MRJob
 
-class MRValenceCalculator(MRJob):
+stopwords_list = requests.get("https://gist.githubusercontent.com/rg089/35e00abf8941d72d419224cfd5b5925d/raw/12d899b70156fd0041fa9778d657330b024b959c/stopwords.txt").content
+stopwords = list(set(stopwords_list.decode().splitlines()))
 
-    def load_valence_scores(self, url):
-        # Load valence scores from the given URL
-        response = requests.get(url)
-        return {word: int(score) for line in response.text.splitlines() for word, score in [line.split('\t')]}
 
-    def decode_bytes(self, input_data):
-        return input_data.decode('utf-8', errors='replace') if isinstance(input_data, bytes) else input_data
+def remove_stopwords(words):
+    list_ = re.sub(r"[^a-zA-Z0-9]", " ", words.lower()).split())
+    return [itm for itm in list_ if itm not in stopwords]
 
-    def get_word_valences(self, words, valence_scores):
-        return list(map(lambda word: valence_scores.get(word.lower(), 0), words))
 
-    def clean_text(self, text):
-        # Clean the input text (you may modify this based on your cleaning requirements)
-        text = text.translate(str.maketrans('', '', string.punctuation))
-        return text.strip().lower()
+def clean_text(text):
+    text = text.lower()
+    text = re.sub('\[.*?\]', '', text)
+    text = re.sub('[%s]' % re.escape(string.punctuation), ' ', text)
+    text = re.sub('[\d\n]', ' ', text)
+    return ' '.join(remove_stopwords(text))
 
-    def calc_valence(self, input_data):
-        url = 'https://raw.githubusercontent.com/fnielsen/afinn/master/afinn/data/AFINN-en-165.txt'
-        valence_scores = self.load_valence_scores(url)
-        
-        decoded_text = self.decode_bytes(input_data)
+def main(argv):
+    line = clean_text(sys.stdin.readline())
+    pattern = re.compile("[a-zA-Z][a-zA-Z0-9]*")
+    try:
+        while line:
+            for word in pattern.findall(line):
+                print ("LongValueSum:" + word.lower() + "\t" + "1")
+                # x = 1 / random.randint(0,99)
+            line = sys.stdin.readline()
+    except EOFError as error:
+        return None
 
-        # Remove non-printable characters from the decoded text
-        decoded_text = re.sub(r'[\x00-\x1F\x7F]', '', decoded_text)
-        
-        cleaned_text = self.clean_text(decoded_text)
-        
-        words = cleaned_text.split()
-        word_valences = self.get_word_valences(words, valence_scores)
-
-        # Calculate total valence using reduce
-        total_valence, valid_count = functools.reduce(
-            lambda acc, val: (acc[0] + val, acc[1] + (1 if val != 0 else 0)),
-            word_valences,
-            (0, 0)
-        )
-        
-        return total_valence
-
-    def mapper(self, _, line):
-        valence_score = self.calc_valence(line)
-        yield 'president', valence_score
-
-if __name__ == '__main__':
-    MRValenceCalculator.run()
+if __name__ == "__main__":
+    main(sys.argv)
