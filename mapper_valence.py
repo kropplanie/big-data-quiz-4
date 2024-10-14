@@ -25,9 +25,12 @@ def load_valence_scores(url):
     return {word: int(score) for line in response.text.splitlines() for word, score in [line.split('\t')]}
 
 def decode_bytes(input_data):
+    # if there are bytes, replace them with readable characters
     return input_data.decode('utf-8', errors='replace') if isinstance(input_data, bytes) else input_data
 
 def get_word_valences(words, valence_scores):
+    # retrieve the valences for the words in the line from the list
+    # return 0 if the word is not found
     return list(map(lambda word: valence_scores.get(word.lower(), 0), words))
 
 def calc_valence(input_data):
@@ -36,7 +39,7 @@ def calc_valence(input_data):
     
     decoded_text = decode_bytes(input_data)  # Correctly decode input data
 
-    # Remove non-printable characters from the decoded text
+    # remove non-printable characters from the decoded text
     decoded_text = re.sub(r'[\x00-\x1F\x7F]', '', decoded_text)
     
     cleaned_text = clean_text(decoded_text)  # Clean the processed text
@@ -44,7 +47,7 @@ def calc_valence(input_data):
     words = cleaned_text.split()  # Split cleaned text into words
     word_valences = get_word_valences(words, valence_scores)
 
-    # Calculate the total valence using the reduce function
+    # calculate the total valence using the reduce function
     total_valence, valid_count = functools.reduce(
         lambda acc, val: (acc[0] + val, acc[1] + (1 if val != 0 else 0)),
         word_valences,
