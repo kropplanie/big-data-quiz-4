@@ -3,6 +3,7 @@ import sys, re
 import random
 import requests
 import string
+import functools
 
 stopwords_list = requests.get("https://gist.githubusercontent.com/rg089/35e00abf8941d72d419224cfd5b5925d/raw/12d899b70156fd0041fa9778d657330b024b959c/stopwords.txt").content
 stopwords = list(set(stopwords_list.decode().splitlines()))
@@ -19,6 +20,18 @@ def clean_text(text):
     text = re.sub('[%s]' % re.escape(string.punctuation), ' ', text)
     text = re.sub('[\d\n]', ' ', text)
     return ' '.join(remove_stopwords(text))
+
+def load_valence_scores(url):
+    # load in the valence scores from the given url
+    response = requests.get(url)
+    return {word: int(score) for line in response.text.splitlines() for word, score in [line.split('\t')]}
+
+def decode_bytes(input_data):
+    return input_data.decode('utf-8', errors='replace') if isinstance(input_data, bytes) else input_data
+
+def get_word_valences(words, valence_scores):
+    return list(map(lambda word: valence_scores.get(word.lower(), 0), words))
+
 
 def main(argv):
     line = clean_text(sys.stdin.readline())
