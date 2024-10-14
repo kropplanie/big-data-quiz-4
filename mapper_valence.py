@@ -65,7 +65,7 @@ def main(argv):
             if not line:  # Check for EOF
                 break
             valence_total = valence(line)
-            print("LongValueSum:" + "president" + "\t" + str(valence_total))
+            print("president" + "\t" + str(valence_total))
     except EOFError:
         pass 
 
