@@ -34,12 +34,12 @@ def get_word_valences(words, valence_scores):
 
 
 def main(argv):
-    valence_scores = load_valence_scores('https://raw.githubusercontent.com/fnielsen/afinn/master/afinn/data/AFINN-en-165.txt')
     line = clean_text(sys.stdin.readline())
     pattern = re.compile("[a-zA-Z][a-zA-Z0-9]*")
     try:
         while line:
             for word in pattern.findall(line):
+                decoded_text = decode_bytes(word)
                 print ("LongValueSum:" + word.lower() + "\t" + "1")
                 # x = 1 / random.randint(0,99)
             line = sys.stdin.readline()
