@@ -1,9 +1,7 @@
-#!/usr/bin/env python
-
 import sys
 import heapq
 
-top_n = 10  # Number of top elements to keep
+top_n = 5  # Number of top elements to keep
 heap = []
 
 current_word = None
@@ -22,7 +20,10 @@ for line in sys.stdin:
             if len(heap) < top_n:
                 heapq.heappush(heap, (current_count, current_word))
             else:
-                heapq.heappushpop(heap, (current_count, current_word))
+                # Check if we should replace the smallest
+                if current_count > heap[0][0]:  # Compare with the smallest count in the heap
+                    heapq.heappushpop(heap, (current_count, current_word))
+
         current_word = word
         current_count = count
 
@@ -31,8 +32,10 @@ if current_word:
     if len(heap) < top_n:
         heapq.heappush(heap, (current_count, current_word))
     else:
-        heapq.heappushpop(heap, (current_count, current_word))
+        if current_count > heap[0][0]:  # Compare with the smallest count in the heap
+            heapq.heappushpop(heap, (current_count, current_word))
 
-# Output the top N elements
-for count, word in heap:
+# Output the top N elements sorted by count in descending order
+top_elements = sorted(heap, key=lambda x: x[0], reverse=True)
+for count, word in top_elements:
     print(f"{word}\t{count}")
