@@ -42,7 +42,8 @@ if current_word == word:
 
 for word, count in word_counts.items():
     if word == '__TOTAL__':
-        total_count = count
+        #total_count = count
+        print ('%s\t%s' % (word, count))
 
-for word, count in word_counts.items():
-    print ('%s\t%s' % (word, (count/total_count)*100))
+#for word, count in word_counts.items():
+    #print ('%s\t%s' % (word, (count/total_count)*100))
