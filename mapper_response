@@ -10,12 +10,22 @@ def main(argv):
     # Read lines from standard input
     for line in sys.stdin:
         # Find all request types in the line
-        request_types = pattern.findall(line)
+        response_codes = pattern.findall(line)
         
         # Increment the counter for each request type
-        for request in request_types:
-            # Emit the request type with a count of 1 for downstream processing
-            print(f"{request}\t1")
+        for response in response_codes:
+            # map to correct category
+            if int(response) < 200:
+                print(f"{'informational_responses}\t1")
+            elif int(response) < 300:
+                print(f"{'successfull_responses}\t1")
+            elif int(response) < 400:
+                print(f"{'redirection_messages}\t1")
+            elif int(response) < 500:
+                print(f"{'client_error_responses}\t1")
+            else:
+                print(f"{'server_error_responses}\t1")
+
             total_count +=1
             
             # Use Hadoop's counter mechanism by writing to stderr
