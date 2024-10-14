@@ -60,13 +60,10 @@ def valence(text):
 
 def main(argv):
     line = clean_text(sys.stdin.readline())
-    pattern = re.compile("[a-zA-Z][a-zA-Z0-9]*")
     try:
         while line:
             valence_total = valence(line)
-            for word in pattern.findall(line):
-                print ("LongValueSum:" + word.lower() + "\t" + "1")
-                # x = 1 / random.randint(0,99)
+            print ("LongValueSum:" + "president" + "\t" + valence_total)
             line = sys.stdin.readline()
     except EOFError as error:
         return None
