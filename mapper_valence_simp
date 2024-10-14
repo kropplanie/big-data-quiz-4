@@ -59,14 +59,15 @@ def valence(text):
     return calc_valence(text)
 
 def main(argv):
-    line = clean_text(sys.stdin.readline())
     try:
-        while line:
+        while True:
+            line = clean_text(sys.stdin.readline())
+            if not line:  # Check for EOF
+                break
             valence_total = valence(line)
-            print ("LongValueSum:" + "president" + "\t" + valence_total)
-            line = sys.stdin.readline()
-    except EOFError as error:
-        return None
+            print("LongValueSum:" + "president" + "\t" + str(valence_total))
+    except EOFError:
+        pass 
 
 if __name__ == "__main__":
     main(sys.argv)
