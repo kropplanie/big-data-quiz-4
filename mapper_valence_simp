@@ -3,8 +3,13 @@ import requests
 import re
 import string
 
-# Fetch stopwords
-stopwords_list = requests.get("https://gist.githubusercontent.com/rg089/35e00abf8941d72d419224cfd5b5925d/raw/12d899b70156fd0041fa9778d657330b024b959c/stopwords.txt").content
+try:
+    # Fetch stopwords
+    stopwords_list = requests.get("https://gist.githubusercontent.com/rg089/35e00abf8941d72d419224cfd5b5925d/raw/12d899b70156fd0041fa9778d657330b024b959c/stopwords.txt").content
+except Exception as e:
+    print(f"Error fetching stopwords: {e}", file=sys.stderr)
+    sys.exit(1)
+
 stopwords = list(set(stopwords_list.decode().splitlines()))
 
 def remove_stopwords(words):
@@ -17,7 +22,6 @@ def clean_text(text):
     text = re.sub('[%s]' % re.escape(string.punctuation), ' ', text)
     text = re.sub('[\d\n]', ' ', text)
     return ' '.join(remove_stopwords(text))
-
 def main():
     line = sys.stdin.readline()
     pattern = re.compile("[a-zA-Z][a-zA-Z0-9]*")
@@ -29,7 +33,8 @@ def main():
     except EOFError:
         return None
     except Exception as e:
-        print(f"Error: {e}", file=sys.stderr)
+        print(f"Error processing line: {e}", file=sys.stderr)
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
