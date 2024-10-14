@@ -59,15 +59,22 @@ def valence(text):
     return calc_valence(text)
 
 def main(argv):
+    total_word_count = 0  # Initialize total word count
     try:
         while True:
             line = clean_text(sys.stdin.readline())
             if not line:  # Check for EOF
                 break
+            
             valence_total = valence(line)
-            print("president" + "\t" + str(valence_total))
+            total_word_count += len(line.split())  # Count words directly from the cleaned line
+            
+            print("LongValueSum:" + "president" + "\t" + str(valence_total))
+        
+        # Print the total word count as a special value
+        print("__TOTAL__\t" + str(total_word_count))
+        
     except EOFError:
-        pass 
-
+        pass  # End of file reached
 if __name__ == "__main__":
     main(sys.argv)
