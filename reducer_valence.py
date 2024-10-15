@@ -4,6 +4,7 @@
 from operator import itemgetter
 import sys
 
+pres_name = str(sys.argv[1])
 current_word = None
 current_valence = 0
 word = None
@@ -37,4 +38,4 @@ for line in sys.stdin:
 
 # do not forget to output the last word if needed!
 if current_word == word:
-    print ('%s\t%s' % (current_word, current_valence))
+    print ('%s\t%s' % (pres_name, current_valence))
