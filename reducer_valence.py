@@ -1,12 +1,11 @@
 #!/usr/bin/env python
-"""reducer.py"""
-
-from operator import itemgetter
 import sys
 
-pres_name = str(sys.argv[1])
+# Assuming the total count is passed as an environment variable or command-line argument
+total_count = int(sys.argv[1])
+pres_name = str(sys.argv[2])
 current_word = None
-current_valence = 0
+current_count = 0
 word = None
 
 
@@ -16,26 +15,26 @@ for line in sys.stdin:
     line = line.strip()
 
     # parse the input we got from mapper.py
-    word, valence = line.split('\t', 1)
+    word, count = line.split('\t', 1)
 
-    # convert valence (currently a string) to int
+    # convert count (currently a string) to int
     try:
-        valence = int(valence)
+        count = int(count)
     except ValueError:
-        # valence was not a number, so silently
+        # count was not a number, so silently
         # ignore/discard this line
         continue
     # this IF-switch only works because Hadoop sorts map output
     # by key (here: word) before it is passed to the reducer
     if current_word == word:
-        current_valence += valence
+        current_count += count
     else:
         if current_word:
             # write result to STDOUT
-            print ('%s\t%s' % (current_word, current_valence))
-        current_valence = valence
+            print('%s\t%s' % (current_word, (current_count / total_count)))
+        current_count = count
         current_word = word
 
 # do not forget to output the last word if needed!
 if current_word == word:
-    print ('%s\t%s' % (pres_name, current_valence))
+    print('%s\t%s' % (pres_name, (current_count / total_count)))
