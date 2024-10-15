@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-"""reducer.py"""
 
 from operator import itemgetter
 import sys
@@ -45,5 +44,4 @@ for word, count in word_counts.items():
         #total_count = count
         print ('%s\t%s' % (word, count))
 
-#for word, count in word_counts.items():
-    #print ('%s\t%s' % (word, (count/total_count)*100))
+
